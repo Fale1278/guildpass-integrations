@@ -17,7 +17,7 @@ import {
 } from './types'
 import { ApiError } from './errors'
 
-import { PolicyValidationError, validatePolicy } from '@/lib/validation/policy'
+import { PolicyValidationError, validatePolicy } from '../validation/policy'
 
 function getCoreApiUrl(): string {
   return process.env.NEXT_PUBLIC_CORE_API_URL || 'http://localhost:4000'

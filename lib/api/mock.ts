@@ -15,7 +15,7 @@
  * convenience so you can simulate both unauthenticated and admin states:
  *   NEXT_PUBLIC_MOCK_ADMIN_ADDRESS=0xYourAddress
  */
-import { PolicyValidationError, validatePolicy } from '@/lib/validation/policy'
+import { PolicyValidationError, validatePolicy } from '../validation/policy'
 import {
   AccessApi,
   AccessPolicy,
@@ -118,11 +118,11 @@ export class MockAccessApi implements AccessApi {
   }
 
   async listResources(): Promise<Resource[]> {
-    return resources
+    return resources.map((r) => ({ ...r, roles: r.roles ?? [] }))
   }
 
   async listPolicies(): Promise<AccessPolicy[]> {
-    return policies
+    return policies.map((p) => ({ ...p, roles: p.roles ?? [] }))
   }
 
   // ── Mutations (token is accepted but not validated in mock mode) ───────────
