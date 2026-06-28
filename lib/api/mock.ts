@@ -34,6 +34,7 @@ import {
   Role,
   Session,
   SiweAuthSession,
+  WalletVerification,
   WebhookEventLog,
 } from './types'
 import { ApiError } from './errors'
@@ -198,6 +199,13 @@ export class MockAccessApi implements AccessApi {
     if (!data.roles.includes(role)) data.roles.push(role)
   }
 
+  async removeRole(address: string, role: Role): Promise<void> {
+    if (MOCK_SESSION_STATE === 'expired') throwMockUnauthorized()
+    const data = memberStore[address]
+    if (!data) return
+    data.roles = data.roles.filter((r) => r !== role)
+  }
+
   async updatePolicy(policy: AccessPolicy): Promise<void> {
     if (MOCK_SESSION_STATE === 'expired') throwMockUnauthorized()
     const result = validatePolicy(policy)
@@ -259,5 +267,4 @@ export class MockAccessApi implements AccessApi {
       checkedAt: new Date().toISOString(),
     }
   }
-}
 }
